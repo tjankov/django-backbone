@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}todo {{item.title}} - details{% endblock %}
+{% block logo %}todo #{{item.id}} - {{action}}{% endblock %}
+{% block content %}
+<div class="span9" id="left-content">
+	<table class="table table-hover" id="details_table">
+		<tbody>
+			<tr><td class="tdlabel">title</td><td>{{ item.title }}</td></tr>
+			<tr><td class="tdlabel">text</td><td>{{ item.text }}</td></tr>
+			<tr><td class="tdlabel">priority</td><td>{{item.get_priority_display}}</td></tr>
+			<tr><td class="tdlabel">time due</td><td>{{ item.time_due|date:"H:i, d.m.Y." }}</td></tr>
+			<tr><td class="tdlabel">time left</td><td>{{ item.time_due|timeuntil }}</td></tr>
+			<tr><td class="tdlabel">time created</td><td>{{ item.time_created|date:"H:i, d.m.Y." }}</td></tr>
+			<tr><td class="tdlabel">status</td><td>{{item.status}}</td></tr>
+		</tbody>
+	</table>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="span3" id="right-sidebar">
+	<ul id="sidemenu">
+		<li><a href="/update/{{ item.id }}">edit todo</a></li>
+		<li><a href="/delete/{{ item.id }}" class="tdelete">delete todo</a></li>
+	</ul>
+</div>
+{% endblock %}

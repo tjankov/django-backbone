@@ -1,0 +1,84 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+		<script type="text/javascript" charset="utf-8">
+		</script>
+		<style>
+			#maincont {padding-bottom:110px; background: #fff url({{ STATIC_URL }}img/hbg_down.png) bottom no-repeat;}
+			ul#topnav {margin-right:20px;}
+			ul#topnav li.current a {color:#ff7700;}
+			ul#topnav li a:hover {color:#ffa700; text-decoration:none;}
+			#content, #left-content, #right-sidebar {padding:38px 0;}
+			header h2 {font-family: Lobster; font-weight:normal; margin-top:34px; margin-left:20px; width:48%; float:left; color:#444;}
+
+			td.grid_ops {text-align:right; width:60px;}
+			td.td_due {width:90px;}
+			td.td_priority {width:70px;}
+			
+			.rbc {font-family: RobBCon; }
+			.rc {font-family: RobCon; }
+			.tsubmit {padding:10px 68px; font-size:1.4em;}
+			
+			.form-wrap {width:100%; margin:auto;}
+			.form-half {width:50%; float:left;}
+			h3.error, ul.errorlist { color:#c22;}
+			h3.error {text-transform:lowercase; text-align:center;}
+			ul.errorlist {font-size:0.9em; text-transform:lowercase; font-family:RobCon;}
+			
+			#left-content {}
+			
+			#details_table {width:90%; float:left;}
+			#details_table td.tdlabel {width:120px; font-weight:bold;}
+			
+			#todoform label {text-transform:lowercase; padding-left:10px;}
+			
+			tr.flaming {color:#ff4400;}
+			tr.inactive {color:#cacaca; background:#fdfdfd;}
+			td.td_title {width:120px; padding:0px;}
+			.index-title-maincont {width:106px; height:100%; padding:8px; position:relative;}
+			.flaming-warning {
+				position:absolute; 
+				top:0px;
+				left:0px;
+			}
+			
+			#sidemenu {list-style:none; font-family:RobCon; font-size:1.1em; }
+			#sidemenu li a:hover {text-decoration:none;}
+			
+			
+		</style>	
+	</head>
+	<body>
+		<div class="header-cont">
+			<header>
+				<h2> Todo list - {% block logo %}{% endblock %}</h2> 
+				<ul id="topnav" class="unstyled">
+					<li{% if request.path == '/' %} class="current" {% endif %}><a href="/">Home</a></li>
+					<li{% if request.path == '/backbone' %} class="current" {% endif %}><a href="/backbone">Backbone app</a></li>
+					<li{% if request.path == '/create/' %} class="current" {% endif %}><a href="/create/">Create</a></li>
+					{% if request.user.is_authenticated %}<li><a href="/accounts/logout">Logout</a></li>{% endif %}
+				</ul>
+			</header>
+		</div>
+		<div class="container" id="maincont">
+			<div class="row">
+		{% block content %}{% endblock %}		
+        {% block sidebar %} {% endblock %}
+			</div>
+        </div>
+  
+	</body>
+	<script src="{{ STATIC_URL }}js/jquery.1.8.1.min.js"></script>
+	<script type = "text/javascript">
+		$(function(){$('.tdelete').click(function(){if(confirm("Are you sure you wish to delete this item?")) {return true}else{return false}})});
+	</script>
+	{% block scripts %}{% endblock %}
+</html>
+		

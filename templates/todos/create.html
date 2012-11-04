@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %} {{action}} todo{% endblock %}
+{% block logo %}{{action}} todo #{{num}}{% endblock %}
+{% block content %}
+<div class="span9" id="left-content">
+   <form method='post' action='' class="rc" id="todoform">{% csrf_token %}	
+		<div class="form-wrap">	
+			{% if form.errors %}
+	        <h3 class="error rc">
+	            Please correct the error{{ form.errors|pluralize }} below.
+	        </h3>
+			{% endif %}
+			<div class="form-left form-half">
+			    <div class="control-group">
+						{{ form.title.label_tag }}
+						{{ form.title.errors }}
+				    <div class="controls">
+						{{form.title}}
+				    </div>
+			    </div>
+			    <div class="control-group">
+						{{ form.text.label_tag }}
+						{{ form.text.errors }}
+				    <div class="controls">
+						{{form.text}}
+				    </div>
+			    </div>
+			</div>
+			<div class="form-right form-half">
+			    <div class="control-group">
+						{{ form.time_due.label_tag }}
+						{{ form.time_due.errors }}
+				    <div class="controls">
+						{{form.time_due}}
+				    </div>
+			    </div>
+			    <div class="control-group">
+						{{ form.priority.label_tag }}
+						{{ form.priority.errors }}
+				    <div class="controls">
+						{{form.priority}}
+				    </div>
+			    </div>
+			</div>
+		    <div class="control-group">
+			    <div class="controls">
+					<input type="submit" class='btn btn-inverse rbc tsubmit' value="Save Todo" />
+			    </div>
+		    </div>
+		</div>
+    </form>
+</div>
+{% endblock %}
+{% block sidebar %}
+<div class="span3" id="right-sidebar">
+	{% if action == "update" %}
+	<ul id="sidemenu">
+		<li><a href="/details/{{ num }}">view todo</a></li>
+		<li><a href="/delete/{{ num }}" class="tdelete">delete todo</a></li>
+	</ul>
+	{% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+<link href="{{ STATIC_URL }}css/datePicker.css" rel="stylesheet">
+<style type="text/css">
+#dp-popup {border:5px solid #e8e8e8;}
+#dp-popup, table.jCalendar {width:206px;}
+#dp-popup, #dp-popup td {background:#f8f8f8; font-size:15px;}
+table.jCalendar {border:none;}
+table.jCalendar th {background:#f70;font-family: RobBCon;}
+#dp-popup h2 {line-height:18px;font-family: lobster; font-size:15px; width:100%; color:#333;}
+#dp-popup table.jCalendar td.selected {color:#f70;}
+#dp-popup table.jCalendar td.dp-hover {background:#f70; color:#fff;}
+table.jCalendar {
+    border-collapse: collapse;
+}
+</style>
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/date.js"></script>
+<!--[if IE]><script type="text/javascript" src="{{ STATIC_URL }}js/jquery.bgiframe.min.js"></script><![endif]-->
+<script src="{{ STATIC_URL }}js/jquery.datePicker.js"></script>
+<script type = "text/javascript">
+$(function(){$('#id_time_due').datePicker({clickInput:true, createButton:false})});
+</script>
+{% endblock %}
+

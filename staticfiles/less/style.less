@@ -1,0 +1,187 @@
+
+
+// Bootstrap it!
+@import "bootstrap.less";
+/*
+
+
+@linkColor:         #ffa700;
+@linkColorHover:    darken(@linkColor, 5%);
+@textColor:			#555;
+@navTextShadow:		0 2px 0 rgba(180, 180, 180, 0.9);
+
+// Grays
+@white:             #fff;
+@grayLighter:       #ccc;
+@grayLight:         #777;
+@gray:              #555;
+@grayDark:          #333;
+@black:             #000;
+
+// Accent Colors
+@blue:              #08b5fb;
+@green:             #46a546;
+@red:               #9d261d;
+@yellow:            #ffc40d;
+@orange:            #f89406;
+@pink:              #c3325f;
+@purple:            #7a43b6;
+
+// Baseline grid
+@baseline:          20px;
+
+// Griditude
+@gridColumns:       16;
+@gridColumnWidth:   40px;
+@gridGutterWidth:   20px;
+@siteWidth:         (@gridColumns * @gridColumnWidth) + (@gridGutterWidth * (@gridColumns - 1));
+
+
+
+body {
+  background-color: @white;
+  color: @textColor;
+  text-rendering: optimizeLegibility;
+  text-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+
+body, p, li {
+  #font > .sans-serif(normal,15px,20px);
+}
+
+// Bangin' links
+a, a:visited {
+  font-weight: bold;
+  color: @linkColor;
+  text-decoration: none;
+  .transition(all linear .2s);
+  &:hover {
+    color: @linkColorHover;
+    text-decoration: none;
+    text-shadow: 0 0 10px rgba(80,80,80,.3);
+  }
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+h1 {
+  font-size: 50px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+h4 {
+  font-size: 20px;
+  margin-bottom: 0;
+}
+p {
+  margin-bottom: 20px;
+}
+ol, ul {
+  margin-left: 30px;
+  margin-bottom: 20px;
+}
+ol {
+  list-style: decimal;
+}
+ul {
+  list-style-type: none;
+  li a {
+    font-weight: normal;
+  }
+}
+
+*/
+
+
+// Scaffolding
+header,
+section,
+#footer {
+  width: 796px;
+  margin: 0 auto;
+  display: block;
+}
+
+header {
+  background: #fff url(../img/hbg_up.png);
+  height: 110px;
+  h2 {
+    font-weight: 200;
+    line-height: 35px;
+  }
+  p {
+    float: right;
+    margin: 15px 0 0;
+  }
+  margin-bottom:40px;
+}
+
+.header-cont {height:110px; width:100%;}
+
+#footer {
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+  background: #fff url(../img/hbg_down.png) no-repeat;
+  height: 110px;
+  p {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 13px;
+    span {
+      opacity: .5;
+    }
+  }
+}
+
+
+@font-face {
+    font-family: 'RobCon';
+    src: url('../fonts/Roboto-Condensed-webfont.eot');
+    src: url('../fonts/Roboto-Condensed-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Roboto-Condensed-webfont.woff') format('woff'),
+         url('../fonts/Roboto-Condensed-webfont.ttf') format('truetype'),
+         url('../fonts/Roboto-Condensed-webfont.svg#RobotoCondensed') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'RobBCon';
+    src: url('../fonts/Roboto-BoldCondensed-webfont.eot');
+    src: url('../fonts/Roboto-BoldCondensed-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Roboto-BoldCondensed-webfont.woff') format('woff'),
+         url('../fonts/Roboto-BoldCondensed-webfont.ttf') format('truetype'),
+         url('../fonts/Roboto-BoldCondensed-webfont.svg#RobotoBoldCondensed') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+ul#topnav {
+	float: right;
+	margin-top:44px;
+	li {
+		float:left;
+		margin-left: 22px;
+		a {
+			font-family: RobCon;
+			font-size:20px;
+			color: #444;
+			text-transform: lowercase;
+			text-shadow: 1px 1px 3px rgba(0,0,0, 0.2);
+		}
+	}
+}
+
+
+
+

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %} Todo sample app {% endblock %}
+{% block logo %}{{action}}{% endblock %}
+{% block content %}
+<div id="content" class="span12">
+	{% if todos %}
+
+	
+	<table class="table table-hover" id="todotable">
+	  <thead>
+		<tr>	
+			<th class="td_title">title</th>
+			<th>text</th>
+			<th>priority</th>
+			<th>time due</th>
+<!--
+			<th>operations</th>
+-->
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for todo in todos %}
+		<tr class="{{todo.status}}">
+			<td class="td_title">
+				<div class="index-title-maincont">
+					{% if todo.status == "flaming" %}<img class="flaming-warning" src="{{ STATIC_URL }}img/due.gif" title="hot!"/>
+					{% elif todo.status == "active" %}<img class="flaming-warning" src="{{ STATIC_URL }}img/active.gif" title="inactive"/>
+					{% elif todo.status == "inactive" %}<img class="flaming-warning" src="{{ STATIC_URL }}img/inactive.gif" title="inactive"/>
+					{%endif%}
+					<div class="index-title-cont">{{todo.title}}</div>
+				</div>
+			</td>
+			<td>{{todo.text|truncatechars:30}}</td>
+			<td class="td_priority">{{todo.get_priority_display}}</td>
+			<td class="td_due">{{ todo.time_due|date:"d/m/Y" }}</td>
+
+			<td class="grid_ops">
+				<a href="/details/{{todo.id}}" title="view" class="op_view"><i class="icon-search"></i></a>&nbsp; 
+				<a href="/update/{{todo.id}}" title="edit" class="op_update"><i class="icon-pencil"></i></a>&nbsp; 
+				<a href="/delete/{{todo.id}}" title="delete" class="op_delete tdelete"><i class="icon-trash"></i></a>
+			</td>
+
+		</tr>	
+		{% endfor %}
+	  </tbody>
+
+		{% else %}
+			<p>No todos.</p>
+		
+	</table>
+	{% endif %}
+</div><!-- content -->
+{% endblock %}
+
+        
