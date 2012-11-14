@@ -3594,9 +3594,9 @@ footer {
 header h3 {
   position: absolute;
   top: 30px;
-  left: 20px;
+  left: 18px;
   width: 30%;
-  font-family: lobster;
+  font-family: Lobster;
   font-weight: normal;
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.65);
 }
@@ -3604,24 +3604,51 @@ header ul {
   position: absolute;
   top: 50px;
   right: 0px;
-  width: 40%;
+  width: 188px;
 }
 header ul li a {
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.65);
   color: #f4f4f4;
 }
+#topnav {
+  float: right;
+}
 #topnav li {
   float: left;
-  font-family: arial, sans-serif;
-  text-transform: lowercase;
-  font-size: 1.2em;
-  margin-left: 12px;
-  letter-spacing: -0.01em;
+  margin-left: 8px;
+  width: 34px;
+}
+#topnav li,
+#topnav li a,
+#topnav li p {
+  text-align: center;
 }
 #topnav li a {
-  font-weight: bold;
+  font-size: 2em;
 }
-#topnav li a:hover {
+.hov a {
+  font-size: 2.2em;
+  text-decoration: none;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.65);
+  color: #fff;
+}
+#topnav li p {
+  font-size: 0.8em;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.65);
+  font-weight: bold;
+  margin-top: -4px;
+}
+#item_menu {
+  width: 100px;
+  float: right;
+}
+#item_menu a {
+  font-size: 3em;
+  text-shadow: 0 0 7px #000000;
+  color: #eeeeee;
+  cursor: pointer;
+}
+#item_menu a:hover {
   text-decoration: none;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.65);
   color: #fff;
@@ -3629,16 +3656,30 @@ header ul li a {
 .grid_ops a:hover {
   text-decoration: none;
 }
-.grid_ops i,
 .t_view {
   font-size: 1.1em;
+}
+.grid_ops a,
+.t_view {
   color: #f8f8f8;
   text-shadow: 0 0 7px #000000;
 }
-.grid_ops i:hover,
+.grid_ops a:hover,
 .t_view:hover {
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.65);
 }
 .row {
   margin-left: 0px;
+}
+
+@font-face {
+    font-family: 'Lobster';
+    src: url('../fonts/Lobster_1.3-webfont.eot');
+    src: url('../fonts/Lobster_1.3-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Lobster_1.3-webfont.woff') format('woff'),
+         url('../fonts/Lobster_1.3-webfont.ttf') format('truetype'),
+         url('../fonts/Lobster_1.3-webfont.svg#Lobster13Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }

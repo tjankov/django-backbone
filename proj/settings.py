@@ -49,7 +49,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.getcwd() + '/media/'
+MEDIA_ROOT = os.curdir + '/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -60,7 +60,7 @@ MEDIA_URL = 'http://proj.co/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.getcwd() + '/staticfiles/'
+STATIC_ROOT = os.curdir + '/staticfiles/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -71,7 +71,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     #'/home/jakov/dev/PROJECTS/django/test/static',
-    os.getcwd() + "/static",
+    os.curdir + "/static",
 )
 
 # List of finder classes that know how to find static files in
@@ -110,7 +110,7 @@ ROOT_URLCONF = 'proj.urls'
 WSGI_APPLICATION = 'proj.wsgi.application'
 
 TEMPLATE_DIRS = (
-	os.getcwd() + '/templates'
+	os.curdir + '/templates'
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -172,13 +172,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7
-
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "tyaakow@gmail.com"
-EMAIL_HOST_PASSWORD = "archimelkisedek"
+EMAIL_HOST_PASSWORD = "xxxxxxxxx"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 LOGIN_REDIRECT_URL = "/intro"
 
 

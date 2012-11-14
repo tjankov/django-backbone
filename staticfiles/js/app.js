@@ -62,20 +62,37 @@
 		        } else {
 		            f[this.name] = this.value || '';
 		        }		        
-		    });
-		    // swapping day & month place in date_due string - no form.cleaned_data
-		    f.date_due = f.date_due.substring(3,5) + '/' + f.date_due.substring(0,2) + '/' + f.date_due.substring(6);
+		    });;
+		    //~ // swapping day & month place in date_due string - no form.cleaned_data
+		    if(/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/.test(f.date_due) && String(new Date(f.date_due)) !== "Invalid Date")
+		    {f.date_due = f.date_due.substring(3,5) + '/' + f.date_due.substring(0,2) + '/' + f.date_due.substring(6)}
+		    else {f.date_due = ''}
 		    f.user = "/rest/v1/user/" + userId + "/";
 		    return f;
 	};
+	
+	function menu(){	
+			$('#topnav li.hov').removeClass('hov current').find("p").remove();
+			var $el, route = Backbone.history.fragment;	
+		    if ((route == "") || (route == "create/")){
+			    if (route == ""){$el = $('#topnav li#t_index');} else {$el = $('#topnav li#t_create');}
+			    if ($el.hasClass('hov')) {
+			        return;
+			    } else {
+			        $el.addClass('hov current').append("<p>"+ $el.attr("title") + "</p>");
+			    }
+			}			
+	}
 
 	// vraća dd/mm/yyyy string iz time varijable
 	function dateFromString(string){
-		time = new Date(string);
-		if (time.getDate() < 10) { var date = '0' + time.getDate();} else { var date = time.getDate(); }
-		var month = time.getMonth() + 1; if (month < 10) { var month = '0' + month;}
-		time = date + '/' + month + '/' + time.getFullYear();
-		return time;
+		if (string !== ""){
+			time = new Date(string);
+			if (time.getDate() < 10) { var date = '0' + time.getDate();} else { var date = time.getDate(); }
+			var month = time.getMonth() + 1; if (month < 10) { var month = '0' + month;}
+			time = date + '/' + month + '/' + time.getFullYear();
+			return time;
+	    }
 	};
 	
 	
@@ -87,10 +104,35 @@
 			else if (now < due){return "active";}
 	};
 
-	Todo = Backbone.Model.extend({ 
+	var Todo = Backbone.Model.extend({ 
 		urlRoot: '/rest/v1/todo/',		
 		url: function(){return this.get('resource_uri') || this.urlRoot + (this.id !== undefined ? this.id + '/' : '');},	
-		});
+		validate: function(todo) {	// validacija - samo 4 polja koja ne smiju biti prazna
+			var requireds = ['title', 'text', 'priority', 'date_due'];
+			var invalids = _.filter(requireds, function(item){ 
+				return todo[item] === ''; 
+			});
+			var valids = _.filter(requireds, function(item){ return todo[item] !== ''; });
+			if (invalids.length > 0){return [invalids, valids];}
+		},
+
+		initialize: function(){	// validacija - označavanje krivih inputa	
+			this.bind("error", function(model, error){
+
+				_.each(error[0], function(item){ 
+					$("label.l_"+item).css({'color':'#c51'});				
+				});
+				_.each(error[1], function(item){ 
+					$("label.l_"+item).css({'color':'#ccc'});				
+				});
+				$("#todo-form .note").css({'color':'#c51'});
+			});				
+		},
+		
+
+			
+
+	});
 
     var Collection = Backbone.Collection.extend({
 		model: Todo,
@@ -154,6 +196,7 @@
 						$('#todotable').append(single_view.el);			
 				});			
 				$("#logo").html("Todo list");
+
 			}	          
 		},
 		
@@ -189,12 +232,29 @@
 			$(this.el).html(tmpl(todo));
 			$("#cont").html(this.el);		
 			$("#logo").html("Todo #" + todo.id + " details");		
-		},		
+			$("#item_menu a").hover(function(){$(this).toggleClass('it_hov');});
+		},	
+		
+		events: {
+			"click .delete": "destroyTodo",
+		},  
+		
+		destroyTodo: function(event){
+			var that = this;
+			if(confirm('Are you sure you want to delete this item?')){
+				this.model.destroy({success: function(model, response) {
+					app.navigate("", {trigger: true, replace: true});
+					alert('You have successfully deleted the item!');
+				}});							
+			}
+		}, 	
 	});
 	
 	var createView = BaseView.extend({	
+		initialize: function(){	
+		},
 		render: function () {
-			var tmpl = _.template($("#createTemplate").html());					
+			var tmpl = _.template($("#createTemplate").html());				
 			$(this.el).html(tmpl());
 			$("#cont").html(this.el);
 			$("#logo").html("Create Todo");	
@@ -206,6 +266,9 @@
 				});										
 				dp_loaded = true;
 			} else {$('#Todo_date_due').datepicker({'minDate':'0','dateFormat':'dd/mm/yy'});}
+			
+			
+			
 
 
 		},
@@ -252,11 +315,13 @@
 				
 		events: {
 			"click #btn_update": "update_Todo",
+			"click .delete": "destroyTodo",
 		},
 		
 		update_Todo: function(event){
 			var form = $("#todo-form");
 			var data = formToJson(form);
+			console.log(data.date_due);
 			var todo = this.model;
 			var s = todo.save(data,
 			{
@@ -266,6 +331,16 @@
 				}
 			});				
 		},
+		
+		destroyTodo: function(event){
+			var that = this;
+			if(confirm('Are you sure you want to delete this item?')){
+				this.model.destroy({success: function(model, response) {
+					app.navigate("", {trigger: true, replace: true});
+					alert('You have successfully deleted the item!');
+				}});							
+			}
+		}, 
 	});
 	
 	var AppRouter = Backbone.Router.extend({	
@@ -273,30 +348,19 @@
 	        ""                  : "index",
 	        "view/:item"		: "viewTodo",
 	        "create/"			: "createTodo",
-	        "update/:item"		: "updateTodo",
-	        "delete/:item"		: "destroyTodo"
+	        "update/:item"		: "updateTodo"
 	    },
 	    
 	    initialize: function(options){
 			this.manager = window.m = options.manager;
 		},
+		
+		
+
 	    	        
 		index: function(){directory = new pageView(); this.manager.register(directory);},		
 		viewTodo: function(item){var todo = new detailView({model: new Todo({id: Number(item)}) });  this.manager.register(todo);},		
-		createTodo: function(){var todo = new createView(); todo.render();  this.manager.register(todo);},			
-		destroyTodo: function(item){
-			if(confirm('Are you sure you want to delete this item?')){
-				item = Number(item);					        
-			    var dModel = new Todo({id:item});
-			    dModel.fetch({success:function(){
-					dModel.destroy({success: function(model, response) {
-						alert('You have successfully deleted the item!');
-						app.navigate("", {trigger:true, replace: true});
-					}});
-				}});			
-			}
-		},
-		
+		createTodo: function(){var todo = new createView({model: new Todo()}); todo.render();  this.manager.register(todo);},					
 		updateTodo: function(item){  
 				var that = this;
 				var dModel = new Todo({id: Number(item)});
@@ -309,6 +373,14 @@
 		
 			
 	});	
+
+
+
+
     app = new AppRouter({manager: new window.bckb_manager()});
     Backbone.history.start();
+    Backbone.history.bind("all", function () { menu();});
+    menu();
+    $("#topnav li").on("mouseenter", function(event){ if (!$(this).hasClass("hov")){$(this).addClass('hov').append("<p>"+ $(this).attr("title") + "</p>");}});
+    $("#topnav li").on("mouseleave", function(event){ if (!$(this).hasClass("current")){$(this).removeClass('hov').find("p").remove();}});
 } (jQuery));
