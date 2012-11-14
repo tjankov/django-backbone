@@ -1,10 +1,21 @@
 {% extends "registration/registration_base.html" %}
 {% block title %}Register for an account{% endblock %}
 {% block body %}
-<table>
-    <form method='post' action=''>{% csrf_token %}
-        {{ form }}
-        <tr><td></td><td><input type="submit" value="Send activation email" /></td>
+
+    <form method='post' class="form-signin" action=''>{% csrf_token %}
+{{ form.username.label_tag }}
+{{ form.username }}
+
+{{ form.email.label_tag }}
+{{ form.email }}
+
+{{ form.password1.label_tag }}
+{{ form.password1 }}
+
+{{ form.password2.label_tag }}
+{{ form.password2 }}
+
+        <input type="submit" class="btn btn-large btn-inverse loginbt" value="Send activation email" />
     </form>
-</table>
+
 {% endblock %}

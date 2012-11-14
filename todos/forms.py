@@ -8,7 +8,7 @@ PRIORITIES = (('', 'set priority:'),(0, 'low'),(1, 'medium'),(2, 'high'))
 
 class TodoForm(forms.Form):
 	time_formats = (
-		'%d/%m/%Y %H:%M',
+		'%d/%m/%Y, %H:%M',
 		'%d/%m/%Y',
 		'%Y-%m-%d %H:%M:%S',     # '2006-10-25 14:30:59'
 		'%Y-%m-%d %H:%M',        # '2006-10-25 14:30'
@@ -22,7 +22,7 @@ class TodoForm(forms.Form):
 	)
 	title = forms.CharField(widget=forms.TextInput(attrs={}), max_length=100)
 	text = forms.CharField(widget=forms.Textarea(attrs={'rows':'4'}), max_length=200)
-	time_due = forms.DateTimeField(widget=DateTimeInput(attrs={}, format="%d/%m/%Y"), input_formats = time_formats)		
+	date_due = forms.DateTimeField(widget=DateTimeInput(attrs={}, format="%d/%m/%Y"), input_formats = time_formats)		
 	priority = forms.TypedChoiceField(choices = PRIORITIES, coerce = int)
 
 	

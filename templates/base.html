@@ -8,6 +8,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		<link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/typicons.css">
 		<script type="text/javascript" charset="utf-8">
 		</script>
 		<style>
@@ -18,7 +19,7 @@
 			#content, #left-content, #right-sidebar {padding:38px 0;}
 			header h2 {font-family: Lobster; font-weight:normal; margin-top:34px; margin-left:20px; width:48%; float:left; color:#444;}
 
-			td.grid_ops {text-align:right; width:60px;}
+			td.grid_ops {text-align:right; width:80px;}
 			td.td_due {width:90px;}
 			td.td_priority {width:70px;}
 			
@@ -39,15 +40,19 @@
 			
 			#todoform label {text-transform:lowercase; padding-left:10px;}
 			
-			tr.flaming {color:#ff4400;}
-			tr.inactive {color:#cacaca; background:#fdfdfd;}
-			td.td_title {width:120px; padding:0px;}
-			.index-title-maincont {width:106px; height:100%; padding:8px; position:relative;}
-			.flaming-warning {
-				position:absolute; 
-				top:0px;
-				left:0px;
-			}
+			.span9.formlegend {margin-top:20px; margin-left:0px;}
+			.span9.formlegend span{font-weight:bold; font-size:0.9em; margin-left:8px; line-height:2.2em;}
+			
+			#todotable th {font-family:RobBCon; font-weight:normal;}
+			tr.due .td_due {color:#ff4400;}
+			tr.inactive .td_due {color:#cacaca; background:#fdfdfd;}
+			td.td_title {width:180px; font-size:1.1em;}
+			td.td_due {padding:0px;}
+			.index-due-maincont { height:100%; padding:8px; position:relative;}
+			.flaming-warning {position:absolute; top:0px;right:0px;}
+			
+			.title_view {font-weight:bold; color:inherit;}
+			.title_view:hover {text-decoration:none; color:#333;}
 			
 			#sidemenu {list-style:none; font-family:RobCon; font-size:1.1em; }
 			#sidemenu li a:hover {text-decoration:none;}
@@ -60,10 +65,10 @@
 			<header>
 				<h2> Todo list - {% block logo %}{% endblock %}</h2> 
 				<ul id="topnav" class="unstyled">
-					<li{% if request.path == '/' %} class="current" {% endif %}><a href="/">Home</a></li>
-					<li{% if request.path == '/backbone' %} class="current" {% endif %}><a href="/backbone">Backbone app</a></li>
+					<li><a href="/intro">intro menu</a></li>
+					<li{% if request.path == '/index' %} class="current" {% endif %}><a href="/index">Index</a></li>
 					<li{% if request.path == '/create/' %} class="current" {% endif %}><a href="/create/">Create</a></li>
-					{% if request.user.is_authenticated %}<li><a href="/accounts/logout">Logout</a></li>{% endif %}
+					<li><a href="/accounts/logout">Logout</a></li>
 				</ul>
 			</header>
 		</div>
@@ -77,7 +82,7 @@
 	</body>
 	<script src="{{ STATIC_URL }}js/jquery.1.8.1.min.js"></script>
 	<script type = "text/javascript">
-		$(function(){$('.tdelete').click(function(){if(confirm("Are you sure you wish to delete this item?")) {return true}else{return false}})});
+		$(function(){$('.op_delete').click(function(){if(confirm("Are you sure you wish to delete this item?")) {return true}else{return false}})});
 	</script>
 	{% block scripts %}{% endblock %}
 </html>

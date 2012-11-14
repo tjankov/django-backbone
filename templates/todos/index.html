@@ -13,32 +13,30 @@
 			<th class="td_title">title</th>
 			<th>text</th>
 			<th>priority</th>
-			<th>time due</th>
-<!--
-			<th>operations</th>
--->
+			<th>date due</th>
+			<th></th>
 		</tr>
 	  </thead>
 	  <tbody>
 		{% for todo in todos %}
 		<tr class="{{todo.status}}">
-			<td class="td_title">
-				<div class="index-title-maincont">
-					{% if todo.status == "flaming" %}<img class="flaming-warning" src="{{ STATIC_URL }}img/due.gif" title="hot!"/>
-					{% elif todo.status == "active" %}<img class="flaming-warning" src="{{ STATIC_URL }}img/active.gif" title="inactive"/>
-					{% elif todo.status == "inactive" %}<img class="flaming-warning" src="{{ STATIC_URL }}img/inactive.gif" title="inactive"/>
-					{%endif%}
-					<div class="index-title-cont">{{todo.title}}</div>
-				</div>
-			</td>
+			<td class="td_title"><a href="/details/{{todo.id}}" title="details" class="title_view">{{todo.title}}</a></div></td>
 			<td>{{todo.text|truncatechars:30}}</td>
 			<td class="td_priority">{{todo.get_priority_display}}</td>
-			<td class="td_due">{{ todo.time_due|date:"d/m/Y" }}</td>
+			<td class="td_due">
+				<div class="index-due-maincont">
+					<img class="flaming-warning" src="{{ STATIC_URL }}img/{{todo.status}}.gif" title="{{todo.status}}"/>
+					<div class="index-due-cont">{{ todo.date_due|date:"d/m/Y" }}</div>
+				</div>
+			</td>
+
 
 			<td class="grid_ops">
-				<a href="/details/{{todo.id}}" title="view" class="op_view"><i class="icon-search"></i></a>&nbsp; 
-				<a href="/update/{{todo.id}}" title="edit" class="op_update"><i class="icon-pencil"></i></a>&nbsp; 
-				<a href="/delete/{{todo.id}}" title="delete" class="op_delete tdelete"><i class="icon-trash"></i></a>
+				<div>
+					<a href="/details/{{todo.id}}" title="edit" class="op_view typicn views"></a> 
+					<a href="/update/{{todo.id}}" title="delete" class="op_update typicn write"></a> 
+					<a href="/delete/{{todo.id}}" title="view" class="op_delete typicn delete"></a>
+				</div>
 			</td>
 
 		</tr>	

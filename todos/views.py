@@ -1,6 +1,5 @@
 # coding=utf-8
 from django.http import HttpResponseRedirect, HttpResponse
-from django.forms import ModelForm
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import Context, loader, RequestContext
 from django.views.generic import DetailView, ListView
@@ -11,9 +10,20 @@ from todos.forms import *
 
 
 @login_required
+def ajax(request):
+	return render_to_response('ajax.html', context_instance=RequestContext(request))
+
+@login_required
+def intro(request):
+	return render_to_response('todos/intro.html', context_instance=RequestContext(request))
+
+@login_required
 def index(request):
 	user_todos = Todo.objects.filter(user_id=request.user.id)
-	return render_to_response('todos/index.html', {'todos': user_todos, 'action':'index'}, context_instance=RequestContext(request))
+	if (user_todos.count() == 0):
+		return HttpResponseRedirect('/create/')
+	else:
+		return render_to_response('todos/index.html', {'todos': user_todos, 'action':'index'}, context_instance=RequestContext(request))
 
 @login_required
 def details(request, todo_id):
@@ -26,7 +36,7 @@ def delete(request, todo_id):
 	todo = get_object_or_404(Todo, pk=todo_id)
 	if todo.user.id == request.user.id:
 		todo.delete()
-		return HttpResponseRedirect('/')
+		return HttpResponseRedirect('/index')
 	else:		
 		message = "You are not authorized for this action"
 		return render_to_response('todos/error.html', {'errormessage': message, 'action':'delete'}, context_instance=RequestContext(request))
@@ -41,7 +51,7 @@ def create(request):
 				title = cd['title'],
 				text = cd['text'],
 				priority = cd['priority'],
-				time_due = cd['time_due'],
+				date_due = cd['date_due'],
 				user = request.user
 			)
 			return HttpResponseRedirect('/details/%s/' % item.id)
@@ -63,7 +73,7 @@ def update(request, todo_id):
 					title = cd['title'],
 					text = cd['text'],
 					priority = cd['priority'],
-					time_due = cd['time_due']
+					date_due = cd['date_due']
 				)
 				return HttpResponseRedirect('/details/%s/' % todo_id)
 			else:

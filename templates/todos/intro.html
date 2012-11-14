@@ -1,0 +1,15 @@
+{% extends "base2.html" %}
+
+{% block title %} Todo list {% endblock %}
+{% block content %}
+<div id="content_narrow" class="center">
+	
+	<h2 class="logo">Todo list app:</h2>
+	<a class="intro_link" href="{% url ajax %}">ajax</a><br />
+	<a class="intro_link" href="{% url home %}">regular app</a>
+	
+
+</div><!-- content -->
+{% endblock %}
+
+        

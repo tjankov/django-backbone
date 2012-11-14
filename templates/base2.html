@@ -1,0 +1,72 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+		<script type="text/javascript" charset="utf-8">
+		</script>
+		<style>
+			#maincont {margin-top:40px;}
+			body {
+		        padding-top: 40px;
+		        padding-bottom: 40px;
+		        background-color: #333;
+		    }
+		    
+		    h2.logo {width:300px; margin:20px auto 20px auto; font-family:lobster; font-weight:normal; color:#e5e5e5; text-shadow: 0 0 5px rgba(0,0,0, 0.7);}
+			#content_narrow {width:400px; margin:auto;}
+			.center {text-align:center;}
+			.intro_link { font-weight:bold; font-size:28px; margin:4px 0px; display:block;text-shadow: 0 0 5px rgba(0,0,0, 0.7);}
+			.intro_link:hover { text-decoration:none; text-shadow: 0 0 8px rgba(0,0,0, 1);}
+			
+		   .form-signin {
+		        max-width: 300px;
+		        margin: 0 auto 20px;
+		        /*background-color: #383838;
+		        border: 1px solid #424242;*/
+		        -webkit-border-radius: 5px;
+		           -moz-border-radius: 5px;
+		                border-radius: 5px;
+		        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+		           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+		                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+		   }
+	      .form-signin .form-signin-heading,
+	      .form-signin .checkbox {
+			margin-bottom: 10px;
+	      }
+	      .form-signin input[type="text"],
+	      .form-signin input[type="password"] {
+	        font-size: 18px;
+	        font-weight: bold;
+	        height: auto;
+	        margin-bottom: 15px;
+	        padding: 7px 9px;
+			box-shadow: 0 0 0 5px #444, 0 2px 3px #444 inset;
+			border: 1px solid #333;
+			width:100%;
+	      }
+	      
+	      .form-signin label, .log_legend {font-weight:bold; color:#e5e5e5;}
+	      
+	      .loginbt {font-size: 22px; font-weight:bold; padding:10px 40px; width:100%; float:right;}
+			
+		</style>	
+	</head>
+	<body>
+		<div class="container" id="maincont">
+			<div class="row">
+		{% block logo %}{% endblock %}
+		{% block content %}{% endblock %}	
+			</div>
+        </div>
+  
+	</body>
+
+</html>
+		

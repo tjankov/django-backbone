@@ -29,10 +29,10 @@
 			</div>
 			<div class="form-right form-half">
 			    <div class="control-group">
-						{{ form.time_due.label_tag }}
-						{{ form.time_due.errors }}
+						{{ form.date_due.label_tag }}
+						{{ form.date_due.errors }}
 				    <div class="controls">
-						{{form.time_due}}
+						{{form.date_due}}
 				    </div>
 			    </div>
 			    <div class="control-group">
@@ -50,7 +50,9 @@
 		    </div>
 		</div>
     </form>
+    <div class="span9 formlegend">* all fields are required</div>
 </div>
+
 {% endblock %}
 {% block sidebar %}
 <div class="span3" id="right-sidebar">
@@ -73,6 +75,8 @@ table.jCalendar th {background:#f70;font-family: RobBCon;}
 #dp-popup h2 {line-height:18px;font-family: lobster; font-size:15px; width:100%; color:#333;}
 #dp-popup table.jCalendar td.selected {color:#f70;}
 #dp-popup table.jCalendar td.dp-hover {background:#f70; color:#fff;}
+#dp-popup table.jCalendar td.today {font-weight:bold; color:#f70;}
+#dp-popup table.jCalendar td.today.dp-hover {color:#fff;}
 table.jCalendar {
     border-collapse: collapse;
 }
@@ -82,7 +86,7 @@ table.jCalendar {
 <!--[if IE]><script type="text/javascript" src="{{ STATIC_URL }}js/jquery.bgiframe.min.js"></script><![endif]-->
 <script src="{{ STATIC_URL }}js/jquery.datePicker.js"></script>
 <script type = "text/javascript">
-$(function(){$('#id_time_due').datePicker({clickInput:true, createButton:false})});
+$(function(){$('#id_date_due').datePicker({clickInput:true, createButton:false})});
 </script>
 {% endblock %}
 

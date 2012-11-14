@@ -7,10 +7,10 @@
 	<table class="table table-hover" id="details_table">
 		<tbody>
 			<tr><td class="tdlabel">title</td><td>{{ item.title }}</td></tr>
-			<tr><td class="tdlabel">text</td><td>{{ item.text }}</td></tr>
+			<tr><td class="tdlabel">text</td><td title="{{ item.text }}">{{ item.text|truncatechars:45 }}</td></tr>
 			<tr><td class="tdlabel">priority</td><td>{{item.get_priority_display}}</td></tr>
-			<tr><td class="tdlabel">time due</td><td>{{ item.time_due|date:"H:i, d.m.Y." }}</td></tr>
-			<tr><td class="tdlabel">time left</td><td>{{ item.time_due|timeuntil }}</td></tr>
+			<tr><td class="tdlabel">date due</td><td>{{ item.date_due|date:"H:i, d.m.Y." }}</td></tr>
+			<tr><td class="tdlabel">time left</td><td>{{ item.date_due|timeuntil }}</td></tr>
 			<tr><td class="tdlabel">time created</td><td>{{ item.time_created|date:"H:i, d.m.Y." }}</td></tr>
 			<tr><td class="tdlabel">status</td><td>{{item.status}}</td></tr>
 		</tbody>

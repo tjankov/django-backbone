@@ -1,0 +1,207 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="{{ STATIC_URL }}css/style_b.css" rel="stylesheet">
+		<script type="text/javascript" charset="utf-8">
+			var userId = {{request.user.id}};
+		</script>
+		<style>
+			/* DATEPICKER */
+			#dp-popup {border:5px solid #e8e8e8; z-index:800000;}
+			#dp-popup, table.jCalendar {width:206px;}
+			#dp-popup, #dp-popup td {background:#f8f8f8; font-size:15px; font-weight:bold;}
+			body table.jCalendar {border:0px;}
+			table.jCalendar th {background:#f70;font-family:arial, sans-serif;font-weight:bold; text-transform:lowercase;}
+			#dp-popup h2 {line-height:18px;font-family: lobster; font-size:15px; width:100%; color:#333;}
+			#dp-popup table.jCalendar td.selected {color:#f70;}
+			#dp-popup table.jCalendar td.dp-hover {background:#f70; color:#fff;}
+			#dp-popup table.jCalendar td.today {font-weight:bold; color:#f70;}
+			#dp-popup table.jCalendar td.today.dp-hover {color:#fff;}
+			table.jCalendar {
+			    border-collapse: collapse;
+			}
+			
+			
+			header {background-image: url({{ STATIC_URL }}img/hbg_up.png);}
+			.table th, .table td { border-top: 0px; border-bottom: 2px solid #2c2c2c; }
+			#cont {padding-top:50px;}
+			#todotable tr {height:26px;}
+			#todotable th, #todotable td {padding-top:10px;}
+			#todotable td.td_title {width:180px; font-size:1.1em; font-weight:bold; color:#f8f8f8;}
+			#todotable td.td_title a:hover {text-decoration:none;}
+			#todotable .grid_ops {text-align:right; width:76px; padding:8px 0px;}
+			#todotable .grid_ops a {float:right; margin-left:6px;}
+			#todotable td.td_date_due {width:80px; padding:0px;}
+			#todotable td.td_priority {width:70px;}
+			
+			#todotable tr.inactive, #todotable tr.inactive *  {color:#aaa;}
+			
+			td.tdlabel {font-weight:bold;}
+			
+			
+			.index-due-maincont { height:100%; padding:8px; position:relative;}
+			.flaming-warning {position:absolute; top:0px;right:0px;}
+			.due_due {color:#ff1d00;}
+			
+			#todo-detail{margin-left:0px;}
+			#btn_create, #btn_update {font-weight:bold; font-size: 1.4em; padding: 10px 86px; margin-top:12px;}
+			
+			
+			#form_cont {width:70%; margin:0px auto;}
+			
+			#form_cont input[type="text"], #form_cont textarea, #form_cont select {
+				box-shadow: 0 0 0 5px #444, 0 2px 3px #444 inset;
+				border: 1px solid #333;
+			}
+
+		</style>	
+	</head>
+	<body>{% csrf_token %}
+		<div class="container" id="topnav_cont">
+			<header>
+				<h3 id="logo"> Todo list </h3> 
+				<ul id="topnav" class="unstyled">
+					<li class="current"><a href="/ajax/#">Home</a></li>
+					<li class="current"><a href="/ajax/#create/">Add todo</a></li>
+					<li><a href="/accounts/logout">Logout</a></li>
+				</ul>
+			</header>
+		</div>
+		<div class="container" id="maincont">
+			<div class="row" id="cont">
+			</div>
+        </div>
+  
+	</body>
+	
+
+
+	
+	
+	<script id="indexTemplate" type="text/template">
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/general_foundicons.css">
+		<!--[if lt IE 8]>
+			<link rel="stylesheet" href="{{ STATIC_URL }}css/general_foundicons_ie7.css">
+		<![endif]-->		
+		<table class="table" id="todotable">
+			<tr>	
+				<th>title</th>
+				<th>text</th>
+				<th>priority</th>
+				<th>date due</th>
+				<th class="grid_ops"></th>
+			</tr>
+		</table>
+	</script>
+	<script id="todoTemplate" type="text/template">
+
+				<td class="td_title"><a href="#view/<%= id %>" title="view" class="t_view"><%= title %></a></td>
+				<td class="td_text"><%= text %></td>
+				<td class="td_priority"><%= priority_arr[priority] %></td>
+				<td class="td_date_due">
+					<div class="index-due-maincont">
+						<img class="flaming-warning" src="{{ STATIC_URL }}img/dark_<%= status %>.gif" title="<%= status %>"/>
+						<div class="index-due-cont due_<%= status %>"><%= date_due %></div>
+					</div>
+				</td>
+				<td class="grid_ops">
+					<a href="#delete/<%= id %>" title="delete" class="op_delete"><i class="foundicon-trash"></i></a>
+					<a href="#update/<%= id %>" title="edit" class="op_update"><i class="foundicon-edit"></i></a> 
+					<a href="#view/<%= id %>" title="view" class="op_view"><i class="foundicon-search"></i></a> 
+				</td>	
+	</script>
+
+	<script id="detailTemplate" type="text/template">
+			
+			<div class="span12" id="todo-detail">
+				<table class="table" id="details_table">
+					<tbody>
+						<tr><td class="tdlabel">title</td><td><%= title %></td></tr>
+						<tr><td class="tdlabel">text</td><td><%= text %></td></tr>
+						<tr><td class="tdlabel">priority</td><td><%= priority_arr[priority] %></td></tr>
+						<tr><td class="tdlabel">date due</td><td><%= date_due %></td></tr>
+						<tr><td class="tdlabel">status</td><td><%= status %></td></tr>
+					</tbody>
+				</table>
+			</div>
+	</script>
+	<script id="editTemplate" type="text/template">
+			<div class="form" id="form_cont">
+			<form id="todo-form">
+				<p class="note">Fields with <span class="required">*</span> are required.</p>
+						<input type="hidden" name='full_update' value="1">
+				<div class="span3 fr">	
+					<div class="half-row">
+						<label for="Todo_title" class="required">Title <span class="required">*</span></label>			
+						<input size="60" maxlength="128" name="title" id="Todo_title" type="text" value="<%= title %>" />					
+					</div>	
+					<div class="half-row">
+						<label for="Todo_text" class="required">Text <span class="required">*</span></label>			
+						<textarea rows="4" cols="50" name="text" id="Todo_text"><%= text %></textarea>					
+					</div>		
+				</div>	
+				<div class="span3 offset1 fr">
+					<div class="half-row">
+						<label for="Todo_priority" class="required">Priority</label>			
+						<select name="priority" id="Todo_priority">
+							<% for (var i = 0; i < 3; i++) { %>
+							<option value="<%= i %>"<% if (priority == i) {%> selected="selected" <% } %>><%= arr[i] %></option>
+							<% } %>
+						</select>					
+					</div>						
+					<div class="half-row">
+						<label for="Todo_date_due" class="required">Due Date <span class="required">*</span></label>			
+						<input title="DD.MM.YYYY." id="Todo_date_due" type="text" value="<%= date_due %>" name="date_due" />					
+					</div>
+					<a class="btn btn-large btn-inverse" id="btn_update" name="yt0">Save</a>	
+				</div>
+			</form>
+			</div><!-- form -->
+	</script>
+	<script id="createTemplate" type="text/template">
+			<div class="form" id="form_cont">
+			<form id="todo-form">
+				<p class="note">Fields with <span class="required">*</span> are required.</p>
+				<div class="span3 fr">	
+					<div class="half-row">
+						<label for="Todo_title" class="title required">Title <span class="required">*</span></label>			
+						<input size="60" maxlength="128" name="title" id="Todo_title" type="text" />					
+					</div>	
+					<div class="half-row">
+						<label for="Todo_text" class="text required">Text <span class="required">*</span></label>			
+						<textarea rows="4" cols="50" name="text" id="Todo_text"></textarea>					
+					</div>		
+				</div>	
+				<div class="span3 offset1 fr">
+					<div class="half-row">
+						<label for="Todo_priority" class="priority required">Priority <span class="required">*</span></label>			
+						<select name="priority" id="Todo_priority">
+							<option value="">select priority:</option>
+							<option value="0">low</option>
+							<option value="1">normal</option>
+							<option value="2">high</option>
+						</select>					
+					</div>	
+					<div class="half-row">
+						<label for="Todo_date_due" class="date_due required">Due Date<span class="required">*</span></label>			
+						<input title="DD.MM.YYYY." id="Todo_date_due" type="text" name="date_due" />					
+					</div>
+					<a class="btn btn-large btn-inverse" id="btn_create" name="yt0">Save</a>	
+				</div>
+			</form>
+			</div><!-- form -->
+	</script>
+	<script src="{{ STATIC_URL }}js/json2.min.js"></script>
+	<script src="{{ STATIC_URL }}js/jquery.1.8.1.min.js"></script>
+	<script src="{{ STATIC_URL }}js/underscore.min.js"></script>
+	<script src="{{ STATIC_URL }}js/backbone.min.js"></script>
+	<script src="{{ STATIC_URL }}js/backbone.marionette.min.js"></script>
+	<script src="{{ STATIC_URL }}js/app0.js"></script>
+</html>
+		
