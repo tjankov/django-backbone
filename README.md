@@ -1,8 +1,6 @@
-# django backbone
+# django-backbone
 
-
-
-## A django - tastypie - backbone - based one-page application with restful backend 
+A django - tastypie - backbone - based one-page app with restful backend 
 
 
 
